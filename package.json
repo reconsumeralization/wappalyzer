@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@prantlf/jsonlint": "^10.2.0",
-    "adm-zip": "^0.4.16",
+    "adm-zip": "^0.5.9",
     "convert-svg-to-png": "^0.5.0"
   },
   "devDependencies": {
