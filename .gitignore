@@ -1,8 +1,7 @@
 /build/*
-/src/drivers/**/categories.json
-/src/drivers/**/technologies/*
-/src/drivers/**/wappalyzer.js
-/src/drivers/webextension/images/icons/converted/*
+/src/images/icons/converted/*
+/src/manifest.json
+/src/manifest.bak.json
 
 node_modules
 package-lock.json
@@ -19,3 +18,5 @@ tags.*
 .idea
 /nbproject/private/
 src/out.json
+
+keys.json

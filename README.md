@@ -1,59 +1,48 @@
-[![Validate](https://github.com/AliasIO/wappalyzer/actions/workflows/validate.yml/badge.svg)](https://github.com/AliasIO/wappalyzer/actions/workflows/validate.yml)
-[![wappalyzer NPM](https://img.shields.io/badge/npm-wappalyzer-blue)](https://www.npmjs.com/package/wappalyzer)
-[![wappalyzer-core NPM](https://img.shields.io/badge/npm-wappalyzer--core-blue)](https://www.npmjs.com/package/wappalyzer-core)
+[![Validate](https://github.com/wappalyzer/wappalyzer/actions/workflows/validate.yml/badge.svg)](https://github.com/wappalyzer/wappalyzer/actions/workflows/validate.yml)
 [![Github Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&link=https://github.com/sponsors/AliasIO)](https://github.com/sponsors/AliasIO)
- 
+
 <a href="https://www.wappalyzer.com/?utm_source=readme&utm_medium=github&utm_campaign=wappalyzer"><img src="https://www.wappalyzer.com/images/logo/icon_192.png" height="72" alt="Wappalyzer" align="left" /></a>
 
-# Wappalyzer 
+# Wappalyzer
 
 <br>
 
 **[Wappalyzer](https://www.wappalyzer.com) identifies technologies on websites, such as CMS, web frameworks, ecommerce platforms, JavaScript libraries, analytics tools and [more](https://www.wappalyzer.com/technologies).**
 
-If you don't have time to configure, host, debug and maintain your own infrastructure to analyse websites at scale, we offer a SaaS solution that has all the same capabilities and a lot more. Our [apps](https://www.wappalyzer.com/apps/) and [APIs](https://www.wappalyzer.com/api/) not only reveal the technology stack a website uses but also company and contact details, social media profiles, keywords and metadata.
-
 ## Prerequisites
 
--   [Git](https://git-scm.com)
--   [Node.js](https://nodejs.org) version 14 or higher
--   [Yarn](https://yarnpkg.com)
+- [Git](https://git-scm.com)
+- [Node.js](https://nodejs.org) version 14 or higher
+- [Yarn](https://yarnpkg.com)
 
 ## Quick start
 
 ```sh
-git clone https://github.com/AliasIO/wappalyzer.git
+git clone https://github.com/wappalyzer/wappalyzer.git
 cd wappalyzer
 yarn install
-yarn run link
 ```
 
 ## Usage
 
-### Command line
-
-```sh
-node src/drivers/npm/cli.js https://example.com
-```
-
 ### Chrome extension
 
-* Go go `about:extensions`
-* Enable 'Developer mode'
-* Click 'Load unpacked'
-* Select `src/drivers/webextension`
+- Go to `about:extensions`
+- Enable 'Developer mode'
+- Click 'Load unpacked'
+- Select `src`
 
 ### Firefox extension
 
-* Go go `about:debugging#/runtime/this-firefox`
-* Click 'Load Temporary Add-on'
-* Select `src/drivers/webextension/manifest.json`
+- Go to `about:debugging#/runtime/this-firefox`
+- Click 'Load Temporary Add-on'
+- Select `src/manifest.json`
 
 ## Specification
 
 A long list of [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) is used to identify technologies on web pages. Wappalyzer inspects HTML code, as well as JavaScript variables, response headers and more.
 
-Patterns (regular expressions) are kept in [`src/technologies/`](https://github.com/aliasio/wappalyzer/blob/master/src/technologies). The following is an example of an application fingerprint.
+Patterns (regular expressions) are kept in [`src/technologies/`](https://github.com/wappalyzer/wappalyzer/blob/master/src/technologies). The following is an example of an application fingerprint.
 
 #### Example
 
@@ -90,7 +79,6 @@ Patterns (regular expressions) are kept in [`src/technologies/`](https://github.
   "headers": {
     "X-Powered-By": "Example"
   },
-  "html": "<link[^>]example\\.css",
   "text": "\bexample\b",
   "css": "\\.example-class",
   "robots": "Disallow: /unique-path/",
@@ -99,6 +87,9 @@ Patterns (regular expressions) are kept in [`src/technologies/`](https://github.
   "requiresCategory": "Ecommerce",
   "meta": {
     "generator": "(?:Example|Another Example)"
+  },
+  "probe": {
+    "/path": ""
   },
   "scriptSrc": "example-([0-9.]+)\\.js\\;confidence:50\\;version:\\1",
   "scripts": "function webpackJsonpCallback\\(data\\) {",
@@ -113,7 +104,7 @@ Patterns (regular expressions) are kept in [`src/technologies/`](https://github.
 
 ## JSON fields
 
-Find the JSON schema at [`schema.json`](https://github.com/aliasio/wappalyzer/blob/master/schema.json).
+Find the JSON schema at [`schema.json`](https://github.com/wappalyzer/wappalyzer/blob/master/schema.json).
 
 ### Required properties
 
@@ -178,14 +169,10 @@ Find the JSON schema at [`schema.json`](https://github.com/aliasio/wappalyzer/bl
       <td><code>cpe</code></td>
       <td>String</td>
       <td>
-        The
-        <a href="https://cpe.mitre.org/about/" target="_blank">CPE</a>
-        is a structured naming scheme for applications, see the
-        <a href="https://cpe.mitre.org/specification/" target="_blank"
-          >specification</a
-        >.
+        <a href="https://nvd.nist.gov/products/cpe" target="_blank">CPE</a>
+        is a structured naming scheme for technologies. To check if a CPE is valid and exists (using v2.3), use the <a href="https://nvd.nist.gov/products/cpe/search" target="_blank">search</a>).
       </td>
-      <td><code>"cpe:/a:apache:http_server"</code></td>
+      <td><code>"cpe:2.3:a:apache:http_server</code><br /><code>:*:*:*:*:*:*:*:*"</code></td>
     </tr>
     <tr>
       <td><code>saas</code></td>
@@ -210,6 +197,7 @@ Find the JSON schema at [`schema.json`](https://github.com/aliasio/wappalyzer/bl
 Cost indicator (based on a typical plan or average monthly price) and available pricing models. For paid products only.
 
 One of:
+
 <ul>
   <li><code>low</code>Less than US $100 / mo</li>
   <li><code>mid</code>Between US $100 - $1,000 / mo</li>
@@ -217,6 +205,7 @@ One of:
 </ul>
 
 Plus any of:
+
 <ul>
   <li><code>freemium</code> Free plan available</li>
   <li><code>onetime</code> One-time payments accepted</li>
@@ -247,7 +236,7 @@ Plus any of:
       <td>String | Array</td>
       <td>
         The presence of one application can imply the presence of
-        another, e.g. WordpPress means PHP is also in use.
+        another, e.g. WordPress means PHP is also in use.
       </td>
       <td><code>"PHP"</code></td>
     </tr>
@@ -255,10 +244,10 @@ Plus any of:
       <td><code>requires</code></td>
       <td>String | Array</td>
       <td>
-        Similar to implies but detection only runs if the required technology has been identified. Useful for themes for a specific CMS. 
+        Similar to implies but detection only runs if the required technology has been identified. Useful for themes for a specific CMS.
       </td>
       <td><code>"WordPress"</code></td>
-    </tr>   
+    </tr>
     <tr>
       <td><code>requiresCategory</code></td>
       <td>String | Array</td>
@@ -266,7 +255,7 @@ Plus any of:
         Similar to requires; detection only runs if a technology in the required category has been identified.
       </td>
       <td><code>"Ecommerce"</code></td>
-    </tr>   
+    </tr>
     <tr>
       <td><code>excludes</code></td>
       <td>String | Array</td>
@@ -321,7 +310,7 @@ Plus any of:
       <td><code>dns</code></td>
       <td>Object</td>
       <td>
-        DNS records: supports MX, TXT, SOA and NS (NPM driver only).
+        DNS records: supports MX, TXT, SOA and NS.
       </td>
       <td>
         <code>{ "MX": "example\\.com" }</code>
@@ -343,17 +332,6 @@ Plus any of:
       <td><code>{ "X-Powered-By": "^WordPress$" }</code></td>
     </tr>
     <tr>
-      <td><code>html</code></td>
-      <td>String | Array</td>
-      <td>
-        HTML source code. Patterns must include an HTML opening tag to
-        avoid matching plain text. For performance reasons, avoid
-        <code>html</code> where possible and use
-        <code>dom</code> instead.
-      </td>
-      <td><code>"&lt;a [^&gt;]*href=\"index.html"</code></td>
-    </tr>
-    <tr>
       <td><code>text</code></td>
       <td>String | Array</td>
       <td>
@@ -372,6 +350,14 @@ Plus any of:
       <td><code>"\\.example-class"</code></td>
     </tr>
     <tr>
+      <td><code>probe</code></td>
+      <td>Object</td>
+      <td>
+        Request a URL to test for its existence or match text content.
+      </td>
+      <td><code>{ "/path": "Example text" }</code></td>
+    </tr>
+    <tr>
       <td><code>robots</code></td>
       <td>String | Array</td>
       <td>
@@ -387,7 +373,7 @@ Plus any of:
     </tr>
     <tr>
       <td><code>xhr</code></td>
-      <td>String</td>
+      <td>String | Array</td>
       <td>Hostnames of XHR requests.</td>
       <td><code>"cdn\\.netlify\\.com"</code></td>
     </tr>
@@ -415,6 +401,17 @@ Plus any of:
       </td>
       <td><code>"function webpackJsonpCallback\\(data\\) {"</code></td>
     </tr>
+    <tr>
+      <td><code>html</code> (deprecated)</td>
+      <td>String | Array</td>
+      <td>
+        HTML source code. Patterns must include an HTML opening tag to
+        avoid matching plain text. <strong>For performance reasons, avoid
+        <code>html</code> where possible and use
+        <code>dom</code> instead.</strong>
+      </td>
+      <td><code>"&lt;a [^&gt;]*href=\"index.html"</code></td>
+    </tr>
   </tbody>
 </table>
 
@@ -424,11 +421,11 @@ Patterns are essentially JavaScript regular expressions written as strings, but 
 
 ### Quirks and pitfalls
 
--   Because of the string format, the escape character itself must be escaped when using special characters such as the dot (`\\.`). Double quotes must be escaped only once (`\"`). Slashes do not need to be escaped (`/`).
--   Flags are not supported. Regular expressions are treated as case-insensitive.
--   Capture groups (`()`) are used for version detection. In other cases, use non-capturing groups (`(?:)`).
--   Use start and end of string anchors (`^` and `$`) where possible for optimal performance.
--   Short or generic patterns can cause applications to be identified incorrectly. Try to find unique strings to match.
+- Because of the string format, the escape character itself must be escaped when using special characters such as the dot (`\\.`). Double quotes must be escaped only once (`\"`). Slashes do not need to be escaped (`/`).
+- Flags are not supported. Regular expressions are treated as case-insensitive.
+- Capture groups (`()`) are used for version detection. In other cases, use non-capturing groups (`(?:)`).
+- Use start and end of string anchors (`^` and `$`) where possible for optimal performance.
+- Short or generic patterns can cause applications to be identified incorrectly. Try to find unique strings to match.
 
 ### Tags
 

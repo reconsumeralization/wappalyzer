@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-const iconPath = './src/drivers/webextension/images/icons'
+const iconPath = './src/images/icons'
 
 const categories = JSON.parse(fs.readFileSync('./src/categories.json'))
 
@@ -157,6 +157,10 @@ Object.keys(technologies).forEach((name) => {
       flags.forEach((flag) => {
         const [key, value] = flag.split(':')
 
+        if (key === 'version') {
+          return
+        }
+
         if (key === 'confidence') {
           if (
             !/^\d+$/.test(value) ||
@@ -200,7 +204,7 @@ fs.readdirSync(iconPath).forEach((file) => {
       !Object.values(technologies).some(({ icon }) => icon === file) &&
       file !== 'default.svg'
     ) {
-      throw new Error(`Extraneous file: ${filePath}}`)
+      throw new Error(`Extraneous file: ${filePath}`)
     }
   }
 })
